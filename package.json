@@ -1,0 +1,40 @@
+{
+  "name": "salvation",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "@types/lodash": "4.14.103",
+    "@types/react": "16.0.38",
+    "@types/react-native": "0.52.12",
+    "@types/react-redux": "5.0.15",
+    "@types/redux-logger": "3.0.5",
+    "babel-preset-react-native": "4.0.0",
+    "jest-react-native": "18.0.0",
+    "react-native-typescript-transformer": "1.2.3",
+    "react-test-renderer": "16.2.0",
+    "tslint": "5.9.1",
+    "typescript": "2.7.2"
+  },
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "lint": "tsc -p . --noEmit;tslint -p .",
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "dependencies": {
+    "immutability-helper": "2.6.5",
+    "lodash": "4.17.5",
+    "react": "16.2.0",
+    "react-native": "0.52.0",
+    "react-native-swiper": "1.5.13",
+    "react-native-vector-icons": "4.5.0",
+    "react-redux": "5.0.6",
+    "redux": "3.7.2",
+    "redux-logger": "3.0.6",
+    "redux-thunk": "2.2.0"
+  }
+}
