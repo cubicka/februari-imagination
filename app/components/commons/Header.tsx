@@ -22,7 +22,7 @@ function Header(props: HeaderProps) {
 const styles = StyleSheet.create({
     left: {
         position: 'absolute',
-        left: 10,
+        left: 0,
     },
     right: {
         position: 'absolute',

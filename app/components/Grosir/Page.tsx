@@ -8,6 +8,8 @@ import HeaderBase from 'app/components/commons/Header';
 import PageWithHeader from 'app/components/commons/PageWithHeader';
 import { AppPage } from 'app/reducers/app';
 
+import SearchBar from './SearchBar';
+
 interface BackButtonProps {
     onPress: () => any;
 }
@@ -26,11 +28,14 @@ const BackButtonConnected = connect<{}, BackButtonProps>(
 )(BackButton);
 
 const Header = (
-    <HeaderBase
-        left={<BackButtonConnected />}
-        right={<Icon name={'favorite-border'} size={25} color={'#fff'} />}
-        text={'Toko Bagus Sentosa'}
-    />
+    <View>
+        <HeaderBase
+            left={<BackButtonConnected />}
+            right={<Icon name={'favorite-border'} size={25} color={'#fff'} />}
+            text={'Toko Bagus Sentosa'}
+        />
+        <SearchBar />
+    </View>
 );
 
 export default PageWithHeader(Header);

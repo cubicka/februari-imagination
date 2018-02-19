@@ -1,4 +1,4 @@
-import { appActions } from 'app/actions/app';
+// import { appActions } from 'app/actions/app';
 import { State } from 'app/reducers';
 import { appReducerActions } from 'app/reducers/app';
 
@@ -7,9 +7,10 @@ export interface SimpleAction {
     [extraProps: string]: any;
 }
 
-type ArrayAction = appActions;
+// type ArrayAction = appActions;
 type ReducerAction = appReducerActions;
-export type Action = SimpleAction | ArrayAction | ReducerAction;
+// export type Action = SimpleAction | ArrayAction | ReducerAction;
+export type Action = SimpleAction | ReducerAction;
 
 export type ThunkAction<R> = (
     dispatch: Dispatch,
