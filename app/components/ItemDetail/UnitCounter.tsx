@@ -51,9 +51,9 @@ class UnitCounter extends React.Component<UnitCounterProps> {
                 {
                     startCounting &&
                     <View style={styles.countWrapper}>
-                        <ItemButtons.Plus onPress={this.increase} />
-                        <Text style={styles.countText}>{count}</Text>
                         <ItemButtons.Minus onPress={this.decrease} />
+                        <Text style={styles.countText}>{count}</Text>
+                        <ItemButtons.Plus onPress={this.increase} />
                     </View>
                 }
             </View>
