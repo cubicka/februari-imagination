@@ -6,11 +6,9 @@ import { colors } from 'app/components/commons/styles';
 
 const SearchBar: React.SFC<{}> = () => {
     return (
-        <View style={styles.wrapper}>
-            <View style={styles.boxWrapper}>
-                <Icon name={'search'} size={25} color={'#cad2f7'} style={styles.boxIcon} />
-                <Text style={styles.boxText}>{'Apa yang anda cari?'}</Text>
-            </View>
+        <View style={styles.boxWrapper}>
+            <Icon name={'search'} size={25} color={'#cad2f7'} style={styles.boxIcon} />
+            <Text style={styles.boxText}>{'Apa yang anda cari?'}</Text>
         </View>
     );
 };
@@ -32,9 +30,6 @@ const styles = StyleSheet.create({
         height: 38,
         marginBottom: 9,
         marginHorizontal: 17,
-    },
-    wrapper: {
-        backgroundColor: colors.blue,
     },
 });
 

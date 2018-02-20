@@ -1,8 +1,10 @@
 import { AnyAction } from 'redux';
 
 export enum AppPage {
+    Category = 'Category',
     Home = 'Home',
     GrosirHome = 'GrosirHome',
+    ItemDetail = 'ItemDetail',
 }
 
 export interface AppState {

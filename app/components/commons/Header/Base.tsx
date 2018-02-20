@@ -3,21 +3,23 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { colors } from 'app/components/commons/styles';
 
-interface HeaderProps {
+import Row from './Row';
+
+export interface HeaderProps {
     left?: any;
     right?: any;
     text: string;
 }
 
-function Header(props: HeaderProps) {
+const Header: React.SFC<HeaderProps> = props => {
     return (
-        <View style={styles.wrapper}>
+        <Row>
             <Text style={styles.text}>{props.text}</Text>
             <View style={styles.left}>{props.left}</View>
             <View style={styles.right}>{props.right}</View>
-        </View>
+        </Row>
     );
-}
+};
 
 const styles = StyleSheet.create({
     left: {
@@ -33,12 +35,6 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 18,
         textAlign: 'center',
-    },
-    wrapper: {
-        alignItems: 'center',
-        backgroundColor: colors.blue,
-        flexDirection: 'row',
-        height: 56,
     },
 });
 

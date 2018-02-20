@@ -1,12 +1,13 @@
 import React from 'react';
-import { Text } from 'react-native';
 
+import CategoryOverview from './CategoryOverview';
 import Page from './Page';
 
 const Grosir: React.SFC<{}> = () => {
     return (
         <Page>
-            <Text></Text>
+            <CategoryOverview title={'Item Terbaru'} />
+            <CategoryOverview title={'Item Terlaris'} />
         </Page>
     );
 };
