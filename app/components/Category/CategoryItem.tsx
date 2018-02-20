@@ -27,7 +27,9 @@ const CategoryItem: React.SFC<CategoryItemProps> = props => {
                     <PhotoPlaceholder width={88} height={88} />
                 </View>
                 <Text style={styles.title}>Quaker Instant Oatmeal</Text>
-                <Text style={styles.note}>3 Unit Varian</Text>
+                {
+                    // <Text style={styles.note}>3 Unit Varian</Text>
+                }
             </View>
         </TouchableWithoutFeedback>
     );
