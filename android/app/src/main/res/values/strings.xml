@@ -1,3 +1,4 @@
 <resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">5QxrbRWf4eVmZ-kAm2S7l3tgGmghSkhJWOAwG</string>
     <string name="app_name">Didi Retailer</string>
 </resources>
