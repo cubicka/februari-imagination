@@ -10,7 +10,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
-    currentPage: AppPage.Home,
+    currentPage: AppPage.GrosirHome,
 };
 
 export type appReducerActions = [ '/app/currentPage/update', AppPage ];
