@@ -27,7 +27,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
-    currentPage: AppPage.GrosirHome,
+    currentPage: AppPage.Home,
     hasInitialized: false,
     storecode: '',
     showItemDetail: false,
