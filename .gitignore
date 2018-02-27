@@ -24,6 +24,7 @@ local.properties
 *.iml
 
 # Pods
+.DS_Store
 ios/Pods
 
 *.keystore

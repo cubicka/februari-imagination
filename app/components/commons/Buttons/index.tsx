@@ -14,7 +14,7 @@ export interface Buttons {
     onPress?: (...args: any[]) => any;
 }
 
-function Base(name: string, size: number, color: string) {
+function IconButton(name: string, size: number, color: string) {
     return (props: Buttons) => (
         <View style={styles.wrapper}>
             <Icon name={name} size={size} color={color} onPress={props.onPress} />
@@ -23,18 +23,18 @@ function Base(name: string, size: number, color: string) {
 }
 
 export const CategoryButtons = {
-    Next: Base('navigate-next', 25, colors.almostWhiteText),
+    Next: IconButton('navigate-next', 25, colors.almostWhiteText),
 };
 
 const headerButtonsColor = '#fff';
 export const HeaderButtons = {
-    Back: Base('arrow-back', 25, headerButtonsColor),
-    Favorite: Base('favorite-border', 25, headerButtonsColor),
-    Menu: Base('menu', 35, headerButtonsColor),
-    Search: Base('search', 25, headerButtonsColor),
+    Back: IconButton('arrow-back', 25, headerButtonsColor),
+    Favorite: IconButton('favorite-border', 25, headerButtonsColor),
+    Menu: IconButton('menu', 35, headerButtonsColor),
+    Search: IconButton('search', 25, headerButtonsColor),
 };
 
 export const ItemButtons = {
-    Minus: Base('remove', 25, colors.blue),
-    Plus: Base('add', 25, colors.blue),
+    Minus: IconButton('remove', 25, colors.blue),
+    Plus: IconButton('add', 25, colors.blue),
 };

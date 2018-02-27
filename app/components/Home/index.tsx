@@ -7,7 +7,7 @@ import PromoSlider from './PromoSlider';
 function Home() {
     return (
         <Page>
-            <PromoSlider />
+            {/* <PromoSlider /> */}
             <GrosirList />
         </Page>
     );

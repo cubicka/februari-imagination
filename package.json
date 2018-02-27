@@ -26,6 +26,8 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "@types/bluebird": "^3.5.20",
+    "bluebird": "^3.5.1",
     "immutability-helper": "2.6.5",
     "lodash": "4.17.5",
     "react": "16.2.0",

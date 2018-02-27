@@ -1,16 +1,12 @@
-// import { appActions } from 'app/actions/app';
-import { State } from 'app/reducers';
-import { appReducerActions } from 'app/reducers/app';
+import { CustomAction } from 'app/actions';
+import { ReducerAction, State } from 'app/reducers';
 
 export interface SimpleAction {
     type: string;
     [extraProps: string]: any;
 }
 
-// type ArrayAction = appActions;
-type ReducerAction = appReducerActions;
-// export type Action = SimpleAction | ArrayAction | ReducerAction;
-export type Action = SimpleAction | ReducerAction;
+export type Action = SimpleAction | ReducerAction | CustomAction;
 
 export type ThunkAction<R> = (
     dispatch: Dispatch,

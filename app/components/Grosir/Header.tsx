@@ -15,11 +15,11 @@ const BackWithAction = connect<{}, Buttons>(
     }),
 )(HeaderButtons.Back);
 
-const Header = (
+const Header = (name: string) => (
     <HeaderBase
             left={<BackWithAction />}
             right={<HeaderButtons.Favorite />}
-            text={'Toko Bagus Sentosa'} >
+            text={name} >
         <SearchBar />
     </HeaderBase>
 );

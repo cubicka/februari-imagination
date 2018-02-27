@@ -8,6 +8,7 @@ export const colors = {
 
     darkBorder: '#d9dbe6',
     grayBorder: '#ddd',
+    lightGrayBorder: '#e8e8e8',
 
     almostWhiteText: '#afafaf',
     amberText: '#f07418',

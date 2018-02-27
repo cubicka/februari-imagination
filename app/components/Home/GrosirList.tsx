@@ -1,33 +1,55 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
+import { Dispatch } from 'app/actionTypes';
 import { colors } from 'app/components/commons/styles';
+import { State } from 'app/reducers';
+import { WS } from 'app/reducers/ws';
 
 import GrosirItem from './GrosirItem';
 
-const Button: React.SFC<{}> = () => {
-    return (
-        <View style={styles.buttonWrapper}>
-            <Text style={styles.buttonText}>Lihat Semua</Text>
-        </View>
-    );
-};
+interface GrosirListState {
+    ws: WS[];
+}
 
-const GrosirList: React.SFC<{}> = () => {
-    return (
-        <View style={styles.wrapper}>
-            <View style={styles.titleRow}>
-                <Text style={styles.title}>Grosir Langganan</Text>
-                <Text style={styles.titleAction}>Tambah Agen</Text>
+interface GrosirListAction {
+    getList: () => any;
+}
+
+// const Button: React.SFC<{}> = () => {
+//     return (
+//         <View style={styles.buttonWrapper}>
+//             <Text style={styles.buttonText}>Lihat Semua</Text>
+//         </View>
+//     );
+// };
+
+class GrosirList extends React.Component<GrosirListState & GrosirListAction> {
+    componentDidMount() {
+        this.props.getList();
+    }
+
+    render() {
+        const { ws } = this.props;
+        const wsRendered = ws.map(w => (
+            <GrosirItem key={w.storecode} name={w.name} address={w.address} ws={w} />
+        ));
+
+        return (
+            <View style={styles.wrapper}>
+                <View style={styles.titleRow}>
+                    <Text style={styles.title}>Grosir Langganan</Text>
+                    {/* <Text style={styles.titleAction}>Tambah Agen</Text> */}
+                </View>
+                <View>
+                    { wsRendered }
+                    {/* <Button /> */}
+                </View>
             </View>
-            <View>
-                <GrosirItem />
-                <GrosirItem />
-                <Button />
-            </View>
-        </View>
-    );
-};
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     buttonText: {
@@ -65,4 +87,11 @@ const styles = StyleSheet.create({
     },
 });
 
-export default GrosirList;
+export default connect<GrosirListState, GrosirListAction, {}, State>(
+    state => ({
+        ws: state.ws.list,
+    }),
+    (dispatch: Dispatch) => ({
+        getList: () => dispatch(['ws/getList']),
+    }),
+)(GrosirList);

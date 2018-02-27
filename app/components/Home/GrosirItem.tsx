@@ -4,24 +4,32 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 
 import { Dispatch } from 'app/actionTypes';
-import PhotoPlaceholder from 'app/components/commons/PhotoPlaceholder';
+import { WSPhotoPlaceHolder } from 'app/components/commons/PhotoPlaceholder';
 import { colors } from 'app/components/commons/styles';
 import { AppPage } from 'app/reducers/app';
+import { WS } from 'app/reducers/ws';
 
 interface ActionProps {
-    changePage: () => any;
+    select: (ws: WS) => any;
 }
 
-const GrosirItem: React.SFC<ActionProps> = props => {
+interface GrosirItemProps {
+    address: string;
+    name: string;
+    ws: WS;
+}
+
+const GrosirItem: React.SFC<GrosirItemProps & ActionProps> = props => {
+    const { address, name, select, ws } = props;
     return (
-        <TouchableWithoutFeedback onPress={props.changePage}>
+        <TouchableWithoutFeedback onPress={() => select(ws)}>
             <View style={styles.itemWrapper}>
-                <PhotoPlaceholder height={66} width={66} />
+                <WSPhotoPlaceHolder height={66} width={66} />
                 <View style={{ flex: 1, marginLeft: 15 }}>
-                    <Text style={styles.itemTitle}>Toko Bagus Sentosa</Text>
+                    <Text style={styles.itemTitle}>{name}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Icon name="room" size={20} color={colors.darkGrayText} />
-                        <Text style={styles.itemAddress}>Jalan Kebon Kawung No. 2</Text>
+                        <Text style={styles.itemAddress}>{address}</Text>
                     </View>
                 </View>
             </View>
@@ -54,6 +62,6 @@ const styles = StyleSheet.create({
 export default connect<{}, ActionProps>(
     null,
     (dispatch: Dispatch) => ({
-        changePage: () => dispatch(['/app/currentPage/update', AppPage.GrosirHome]),
+        select: (ws: WS) => dispatch(['ws/select', ws]),
     }),
 )(GrosirItem);
