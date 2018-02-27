@@ -1,27 +1,38 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { connect } from 'react-redux';
 
+import { Dispatch } from 'app/actionTypes';
 import { ItemButtons } from 'app/components/commons/Buttons';
 import { colors } from 'app/components/commons/styles';
+import { Item } from 'app/reducers/ws';
 import { Currency } from 'app/util/formatter';
 
 interface UnitCounterProps {
     name: string;
     price: number;
+    item: Item;
+    qty: number;
 }
 
-class UnitCounter extends React.Component<UnitCounterProps> {
+interface UnitAction {
+    add: () => any;
+    substract: () => any;
+}
+
+class UnitCounter extends React.Component<UnitAction & UnitCounterProps> {
     state = {
-        startCounting: false,
-        count: 0,
+        startCounting: this.props.qty > 0,
     };
 
     decrease = () => {
-        this.setState({ count: Math.max(0, this.state.count - 1) });
+        // this.setState({ count: Math.max(0, this.state.count - 1) });
+        this.props.substract();
     }
 
     increase = () => {
-        this.setState({ count: this.state.count + 1 });
+        // this.setState({ count: this.state.count + 1 });
+        this.props.add();
     }
 
     startCounting = () => {
@@ -29,8 +40,8 @@ class UnitCounter extends React.Component<UnitCounterProps> {
     }
 
     render() {
-        const { name, price} = this.props;
-        const { count, startCounting } = this.state;
+        const { name, price, qty } = this.props;
+        const { startCounting } = this.state;
 
         return (
             <View style={styles.wrapper}>
@@ -52,7 +63,7 @@ class UnitCounter extends React.Component<UnitCounterProps> {
                     startCounting &&
                     <View style={styles.countWrapper}>
                         <ItemButtons.Minus onPress={this.decrease} />
-                        <Text style={styles.countText}>{count}</Text>
+                        <Text style={styles.countText}>{qty}</Text>
                         <ItemButtons.Plus onPress={this.increase} />
                     </View>
                 }
@@ -116,4 +127,10 @@ const styles = StyleSheet.create({
     },
 });
 
-export default UnitCounter;
+export default connect<{}, UnitAction, UnitCounterProps>(
+    null,
+    (dispatch: Dispatch, ownProps) => ({
+        add: () => dispatch(['/app/cart/add', ownProps.item]),
+        substract: () => dispatch(['/app/cart/substract', ownProps.item]),
+    }),
+)(UnitCounter);

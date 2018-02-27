@@ -62,6 +62,9 @@ const styles = StyleSheet.create({
 export default connect<{}, ActionProps>(
     null,
     (dispatch: Dispatch) => ({
-        select: (ws: WS) => dispatch(['ws/select', ws]),
+        select: (ws: WS) => {
+            dispatch(['/app/storecode/update', ws.storecode]);
+            dispatch(['ws/select', ws]);
+        },
     }),
 )(GrosirItem);

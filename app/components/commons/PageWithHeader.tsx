@@ -8,9 +8,7 @@ function PageWithHeader(header: JSX.Element) {
         <Page>
             { header }
             <View style={{ flex: 1 }}>
-                <ScrollView>
-                    { props.children }
-                </ScrollView>
+                { props.children }
             </View>
         </Page>
     );

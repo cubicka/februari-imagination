@@ -16,20 +16,22 @@ export const DummyCategoryItem: React.SFC<{}> = () => (
 );
 
 interface CategoryItemProps {
+    name: string;
+}
+
+interface CategoryItemAction {
     onPress?: (...args: any[]) => any;
 }
 
-const CategoryItem: React.SFC<CategoryItemProps> = props => {
+const CategoryItem: React.SFC<CategoryItemAction & CategoryItemProps> = props => {
+    const { name } = props;
     return (
         <TouchableWithoutFeedback onPress={props.onPress}>
             <View style={[styles.wrapper, styles.wrapperBorder]}>
                 <View style={styles.imageWrapper}>
                     <PhotoPlaceholder width={88} height={88} />
                 </View>
-                <Text style={styles.title}>Quaker Instant Oatmeal</Text>
-                {
-                    // <Text style={styles.note}>3 Unit Varian</Text>
-                }
+                <Text style={styles.title}>{name}</Text>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect<{}, CategoryItemProps>(
+export default connect<{}, CategoryItemAction>(
     null,
     (dispatch: Dispatch) => ({
         onPress: () => dispatch(['/app/currentPage/update', AppPage.ItemDetail ]),

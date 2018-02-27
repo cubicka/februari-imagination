@@ -38,3 +38,8 @@ export const ItemButtons = {
     Minus: IconButton('remove', 25, colors.blue),
     Plus: IconButton('add', 25, colors.blue),
 };
+
+export const CartButtons = {
+    Cart: IconButton('shopping-cart', 25, colors.white),
+    Forward: IconButton('arrow-forward', 25, colors.darkGrayText),
+};

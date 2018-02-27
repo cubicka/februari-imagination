@@ -1,3 +1,4 @@
 export default {
-    backend: 'http://192.168.1.100:3001',
+    backend: 'http://192.168.1.101:3001',
+    imageUri: 'http://103.52.146.162',
 };

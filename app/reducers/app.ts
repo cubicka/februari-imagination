@@ -1,36 +1,132 @@
 import { AnyAction } from 'redux';
 
+import { Item } from './ws';
+
 export enum AppPage {
     Category = 'Category',
     Home = 'Home',
     GrosirHome = 'GrosirHome',
     ItemDetail = 'ItemDetail',
+    Transaction = 'Transaction',
+}
+
+export interface CartItem {
+    item: Item;
+    qty: number;
 }
 
 export interface AppState {
     currentPage: AppPage;
     hasInitialized: boolean;
     usercode?: string;
+    storecode: string;
+    showItemDetail: boolean;
+    itemDetail: Item;
+    cart: CartItem[];
+    totalPrices: number;
 }
 
 const initialState: AppState = {
-    currentPage: AppPage.Home,
+    currentPage: AppPage.GrosirHome,
     hasInitialized: false,
+    storecode: '',
+    showItemDetail: false,
+    cart: [],
+    itemDetail: {
+        skucode: '',
+        description: '',
+        category: '',
+        subcategory: '',
+        price: '0',
+    },
+    totalPrices: 0,
 };
 
 export type appReducerActions = [ '/app/currentPage/update', AppPage ] |
+    ['/app/cart/add', Item] |
+    ['/app/cart/substract', Item] |
+    ['/app/cart/clean'] |
+    ['/app/cart/empty'] |
     ['/app/initialize', { usercode: string }] |
+    ['/app/itemDetail/set', Item] |
+    ['/app/showItemDetail/update', boolean ] |
+    ['/app/storecode/update', string ] |
     ['/app/usercode/update', string];
 
 function reducer(state = initialState, action: AnyAction) {
     switch (action.type) {
+        case 'cart/add': {
+            const item = action.payload;
+            const itemIdx = state.cart.findIndex(c => c.item.skucode === item.skucode);
+
+            if (itemIdx === -1) {
+                return {
+                    ...state,
+                    cart: [...state.cart, {item, qty: 1}],
+                    totalPrices: state.totalPrices + parseFloat(item.price),
+                };
+            }
+
+            return {
+                ...state,
+                cart: [
+                    ...state.cart.slice(0, itemIdx),
+                    { item, qty: state.cart[itemIdx].qty + 1 },
+                    ...state.cart.slice(itemIdx + 1),
+                ],
+                totalPrices: state.totalPrices + parseFloat(item.price),
+            };
+        }
+
+        case 'cart/substract': {
+            const item = action.payload;
+            const itemIdx = state.cart.findIndex(c => c.item.skucode === item.skucode);
+
+            if (itemIdx === -1) {
+                return {
+                    ...state,
+                    cart: [...state.cart],
+                };
+            }
+
+            return {
+                ...state,
+                cart: [
+                    ...state.cart.slice(0, itemIdx),
+                    { item, qty: Math.max(0, state.cart[itemIdx].qty - 1) },
+                    ...state.cart.slice(itemIdx + 1),
+                ],
+                totalPrices: state.totalPrices - ((state.cart[itemIdx].qty === 0) ? 0 : parseFloat(item.price)),
+            };
+        }
+
+        case 'cart/clean': {
+            return { ...state, cart: state.cart.filter(c => c.qty > 0) };
+        }
+
+        case 'cart/empty': {
+            return { ...state, cart: [] };
+        }
+
         case 'currentPage/update': {
             return { ...state, currentPage: action.payload };
         }
 
         case 'initialize': {
-            const { usercode } = action.payload;
-            return { ...state, hasInitialized: true, usercode };
+            const { storecode, usercode } = action.payload;
+            return { ...state, hasInitialized: true, storecode, usercode };
+        }
+
+        case 'itemDetail/set': {
+            return { ...state, itemDetail: action.payload };
+        }
+
+        case 'showItemDetail/update': {
+            return { ...state, showItemDetail: action.payload };
+        }
+
+        case 'storecode/update': {
+            return { ...state, storecode: action.payload };
         }
 
         case 'usercode/update': {

@@ -1,4 +1,6 @@
+import { STORECODE } from 'app/actions/app';
 import config from 'app/config';
+import { Load } from 'app/util/storage';
 
 const baseUrl = config.backend;
 
@@ -31,12 +33,16 @@ interface FetchOpts {
 }
 
 function Fetch(url: string, opts: FetchOpts) {
-    return fetch(baseUrl + url, {
-        ...opts,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
+    return Load(STORECODE, '')
+    .then((storecode: string) => {
+        return fetch(baseUrl + url, {
+            ...opts,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': storecode,
+            },
+        });
     })
     .then((response: any) => {
         if (response.ok) return ParseResponse(response);
@@ -46,7 +52,8 @@ function Fetch(url: string, opts: FetchOpts) {
             if (err && err.error) throw new Error(err.error);
             throw new Error('Network request failed');
         });
-    });
+    })
+    .catch(() => null);
 }
 
 function QueryParams(params: FetchOpts) {

@@ -1,18 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
-import PhotoPlaceholder from 'app/components/commons/PhotoPlaceholder';
+// import PhotoPlaceholder from 'app/components/commons/PhotoPlaceholder';
 import { colors } from 'app/components/commons/styles';
+import config from 'app/config';
+import { Item } from 'app/reducers/ws';
 
-const ItemPresentation: React.SFC<{}> = () => {
+const ItemPresentation: React.SFC<{ item?: Item }> = props => {
+    const { item } = props;
     return (
         <View style={styles.wrapper}>
             <View style={styles.imageWrapper}>
-                <PhotoPlaceholder width={160} height={160} />
+            <Image source={{uri: `${config.imageUri}/SFA_LITE/api/v1/upload/${item && item.skucode}.jpg`}}
+                        style={{width: 160, height: 160}} />
             </View>
-            <Text style={styles.skuText}>NO SKU: 112314012311</Text>
-            <Text style={styles.nameText}>Shampoo PANTENE ProV Sachet 2x5ml Daily Moisture Repair</Text>
-            <Text style={styles.categoryText}>Kategori / Sub Kategori</Text>
+            <Text style={styles.nameText}>{item ? item.description : ''}</Text>
+            <Text style={styles.categoryText}>{item ? item.category : ''} / {item ? item.subcategory : ''}</Text>
         </View>
     );
 };

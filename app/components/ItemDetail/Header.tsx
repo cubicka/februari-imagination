@@ -9,7 +9,7 @@ import { AppPage } from 'app/reducers/app';
 const BackWithAction = connect<{}, Buttons>(
     null,
     (dispatch: Dispatch) => ({
-        onPress: () => dispatch(['/app/currentPage/update', AppPage.Category]),
+        onPress: () => dispatch(['/app/showItemDetail/update', false]),
     }),
 )(HeaderButtons.Back);
 

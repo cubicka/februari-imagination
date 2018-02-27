@@ -1,40 +1,79 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { connect } from 'react-redux';
 
-import PhotoPlaceholder from 'app/components/commons/PhotoPlaceholder';
+import { Dispatch } from 'app/actionTypes';
+// import PhotoPlaceholder from 'app/components/commons/PhotoPlaceholder';
 import { colors } from 'app/components/commons/styles';
+import config from 'app/config';
+import { AppPage } from 'app/reducers/app';
+import { Item } from 'app/reducers/ws';
 
-const CategoryItem: React.SFC<{}> = () => {
-    return (
-        <View style={styles.wrapper}>
-            <View style={styles.imageWrapper}>
-                <PhotoPlaceholder width={88} height={88} />
-            </View>
-            <Text style={styles.title}>Quaker Instant Oatmeal</Text>
-            <Text style={styles.note}>3 Unit Varian</Text>
+export const DummyCategoryItem: React.SFC<{}> = () => (
+    <View style={[styles.wrapper]}>
+        <View style={[styles.imageWrapper, { paddingVertical: 0}]}>
+            <View style={{width: 88, height: 0}} />
         </View>
+    </View>
+);
+
+interface CategoryItemProps {
+    name: string;
+    skucode: string;
+    item: Item;
+}
+
+interface CategoryItemAction {
+    onPress?: (...args: any[]) => any;
+}
+
+const CategoryItem: React.SFC<CategoryItemAction & CategoryItemProps> = props => {
+    const { name, skucode } = props;
+    return (
+        <TouchableWithoutFeedback onPress={props.onPress}>
+            <View style={[styles.wrapper, styles.wrapperBorder]}>
+                <View style={styles.imageWrapper}>
+                    <Image source={{uri: `${config.imageUri}/SFA_LITE/api/v1/upload/${skucode}.jpg`}}
+                        style={{width: 88, height: 88}} />
+                </View>
+                <Text style={styles.title}>{name}</Text>
+            </View>
+        </TouchableWithoutFeedback>
     );
 };
 
 const styles = StyleSheet.create({
     imageWrapper: {
         alignItems: 'center',
-        padding: 15,
+        paddingHorizontal: 5,
+        paddingVertical: 10,
     },
     note: {
         color: colors.almostWhiteText,
         fontSize: 12,
+        maxWidth: 100,
     },
     title: {
         color: colors.lightGrayText,
         fontSize: 12,
         marginBottom: 7,
+        maxWidth: 100,
     },
     wrapper: {
-        flex: 1,
+        width: 120,
+        paddingHorizontal: 5,
+    },
+    wrapperBorder: {
+        borderColor: colors.grayBorder,
+        borderBottomWidth: 1,
+        borderRightWidth: 1,
         paddingBottom: 18,
-        paddingHorizontal: 8,
     },
 });
 
-export default CategoryItem;
+export default connect<{}, CategoryItemAction, CategoryItemProps>(
+    null,
+    (dispatch: Dispatch, ownProps) => ({
+        onPress: () => dispatch(['ws/showDetail', ownProps.item ]),
+    }),
+)(CategoryItem);

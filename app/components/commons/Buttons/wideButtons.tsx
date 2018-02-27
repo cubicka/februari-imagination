@@ -48,3 +48,4 @@ const styles = StyleSheet.create({
 });
 
 export const BlueWideButton = wrap(WideButton, { backgroundColor: colors.blue, textColor: colors.white });
+export const GreenWideButton = wrap(WideButton, { backgroundColor: '#64c490', textColor: colors.white });

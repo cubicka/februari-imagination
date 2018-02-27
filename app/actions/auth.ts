@@ -1,10 +1,11 @@
+import * as bluebird from 'bluebird';
 import { Alert } from 'react-native';
 
 import { Dispatch } from 'app/actionTypes';
 import { Post } from 'app/util/network';
 import { Save } from 'app/util/storage';
 
-import { USERCODE } from './app';
+import { STORECODE, USERCODE } from './app';
 
 type loginAction = ['auth/login', string, string];
 function login(username: string, password: string) {
@@ -12,10 +13,14 @@ function login(username: string, password: string) {
         dispatch(['/auth/isLoggingIn/update', true]);
         return Post('/auth/retail/sign-in', { username, password })
         .then((response: any) => {
-            return Save(USERCODE, response.usercode);
+            return bluebird.all([
+                Save(STORECODE, response.storecode),
+                Save(USERCODE, response.usercode),
+            ]);
         })
-        .then((usercode: any) => {
+        .then(([storecode, usercode]) => {
             dispatch(['/auth/isLoggingIn/update', false]);
+            dispatch(['/app/storecode/update', storecode]);
             dispatch(['/app/usercode/update', usercode]);
         })
         .catch(() => {

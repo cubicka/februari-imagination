@@ -10,12 +10,15 @@ import Category from './Category';
 import Grosir from './Grosir';
 import Home from './Home';
 import ItemDetail from './ItemDetail';
+import Loading from './Loading';
 import Login from './Login';
+import Transaction from './Transaction';
 
 interface StateProps {
     currentPage: AppPage;
     hasInitialized: boolean;
     usercode?: string;
+    showItemDetail: boolean;
 }
 
 interface ActionProps {
@@ -30,18 +33,29 @@ class App extends React.Component<StateProps & ActionProps> {
     }
 
     render() {
-        const { currentPage, hasInitialized, usercode } = this.props;
+        const { currentPage, hasInitialized, usercode, showItemDetail } = this.props;
 
-        if (!hasInitialized) return <View />;
+        if (!hasInitialized) return <Loading />;
         if (!usercode) return <Login />;
 
-        switch (currentPage) {
-            case AppPage.Category: return <Category />;
-            case AppPage.GrosirHome: return <Grosir />;
-            case AppPage.Home: return <Home />;
-            case AppPage.ItemDetail: return <ItemDetail />;
-            default: return <Home />;
-        }
+        // switch (currentPage) {
+        //     case AppPage.GrosirHome: return <Grosir />;
+        //     case AppPage.Home: return <Home />;
+        //     default: return <Home />;
+        // }
+        return <View style={{flex: 1}}>
+            <View style={{flex: 1}}>
+            { currentPage === AppPage.GrosirHome && <Grosir /> }
+            { currentPage === AppPage.Transaction && <Transaction /> }
+            { currentPage !== AppPage.GrosirHome && currentPage !== AppPage.Transaction && <Home /> }
+            </View>
+            {
+                showItemDetail &&
+                <View style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0}}>
+                    <ItemDetail />
+                </View>
+            }
+        </View>;
     }
 }
 
@@ -50,6 +64,7 @@ export default connect<StateProps, ActionProps, {}, State>(
         currentPage: state.app.currentPage,
         hasInitialized: state.app.hasInitialized,
         usercode: state.app.usercode,
+        showItemDetail: state.app.showItemDetail,
     }),
     (dispatch: Dispatch) => ({
         init: () => dispatch(['app/init']),

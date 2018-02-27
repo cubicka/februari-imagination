@@ -6,15 +6,16 @@ import CategorySelector from './CategorySelector';
 import ItemCollections from './ItemCollections';
 import Page from './Page';
 
-const Category: React.SFC<{}> = () => {
-    return (
-        <Page>
-            <CategorySelector />
-            <Spacer size={10} />
-            <ItemCollections />
-            <Spacer size={10} />
-        </Page>
-    );
-};
+class Category extends React.Component<{}> {
+    render() {
+        return (
+            <Page>
+                <CategorySelector />
+                <Spacer size={10} />
+                <Spacer size={10} />
+            </Page>
+        );
+    }
+}
 
 export default Category;
