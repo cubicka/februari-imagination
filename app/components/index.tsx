@@ -38,11 +38,6 @@ class App extends React.Component<StateProps & ActionProps> {
         if (!hasInitialized) return <Loading />;
         if (!usercode) return <Login />;
 
-        // switch (currentPage) {
-        //     case AppPage.GrosirHome: return <Grosir />;
-        //     case AppPage.Home: return <Home />;
-        //     default: return <Home />;
-        // }
         return <View style={{flex: 1}}>
             <View style={{flex: 1}}>
             { currentPage === AppPage.GrosirHome && <Grosir /> }

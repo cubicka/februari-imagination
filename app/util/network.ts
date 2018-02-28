@@ -1,4 +1,4 @@
-import { STORECODE } from 'app/actions/app';
+import { USERCODE } from 'app/actions/app';
 import config from 'app/config';
 import { Load } from 'app/util/storage';
 
@@ -33,7 +33,7 @@ interface FetchOpts {
 }
 
 function Fetch(url: string, opts: FetchOpts) {
-    return Load(STORECODE, '')
+    return Load(USERCODE, '')
     .then((storecode: string) => {
         return fetch(baseUrl + url, {
             ...opts,
