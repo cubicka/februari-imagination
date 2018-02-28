@@ -1,12 +1,12 @@
 import { Alert } from 'react-native';
 
 import { Dispatch, ThunkAction } from 'app/actionTypes';
-import { AppPage } from 'app/reducers/app';
+import { AppPage, Transaction } from 'app/reducers/app';
 import { WS } from 'app/reducers/ws';
 import { Get, Post } from 'app/util/network';
 import { Save } from 'app/util/storage';
 
-import { STORECODE, WSLIST } from './app';
+import { STORECODE, TRANSACTIONS, WSLIST } from './app';
 
 import { Item } from 'app/reducers/ws';
 
@@ -108,8 +108,39 @@ function pesan(picktime: Date): ThunkAction<Promise<any> | any>  {
     };
 }
 
+function transformTransaction(transaction: any): Transaction {
+    return {
+        storename: transaction.grosir.name,
+        status: transaction.isprint ? 'Ter-print' : 'Antri',
+        totalPrice: transaction.items.reduce((total: number, item: any) => {
+            return total + item.pcsqty * parseFloat(item.price);
+        }, 0),
+        itemsCount: transaction.items.length,
+        orderid: transaction.orderid,
+        picktime: new Date(transaction.picktime),
+    };
+}
+
+type getTransactionsAction = ['ws/getTransactions'];
+function getTransactions()  {
+    return (dispatch: Dispatch) => {
+
+        return Get('/retail/orders')
+        .then((response: any) => {
+            const t = response.transactions.slice(0, 5).map(transformTransaction);
+            return Save(TRANSACTIONS, t)
+            .then(() => {
+                dispatch(['/app/transactions/update', t]);
+            });
+        })
+        .catch(() => {
+            // Alert.alert('Pesanan gagal. Coba cek koneksi internet.');
+        });
+    };
+}
+
 export type wsAction = getCategoryAction | getItemsAction |
-    getListAction | pesanAction | selectAction | showDetailAction;
+    getListAction | getTransactionsAction | pesanAction | selectAction | showDetailAction;
 export default {
-    getCategory, getItems, getList, pesan, select, showDetail,
+    getCategory, getItems, getList, getTransactions, pesan, select, showDetail,
 };

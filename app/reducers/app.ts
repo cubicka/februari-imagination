@@ -15,6 +15,15 @@ export interface CartItem {
     qty: number;
 }
 
+export interface Transaction {
+    storename: string;
+    status: string;
+    totalPrice: number;
+    itemsCount: number;
+    orderid: string;
+    picktime: Date;
+}
+
 export interface AppState {
     currentPage: AppPage;
     hasInitialized: boolean;
@@ -24,6 +33,7 @@ export interface AppState {
     itemDetail: Item;
     cart: CartItem[];
     totalPrices: number;
+    transactions: Transaction[];
 }
 
 const initialState: AppState = {
@@ -40,6 +50,7 @@ const initialState: AppState = {
         price: '0',
     },
     totalPrices: 0,
+    transactions: [],
 };
 
 export type appReducerActions = [ '/app/currentPage/update', AppPage ] |
@@ -51,6 +62,7 @@ export type appReducerActions = [ '/app/currentPage/update', AppPage ] |
     ['/app/itemDetail/set', Item] |
     ['/app/showItemDetail/update', boolean ] |
     ['/app/storecode/update', string ] |
+    ['/app/transactions/update', Transaction[]] |
     ['/app/usercode/update', string];
 
 function reducer(state = initialState, action: AnyAction) {
@@ -113,8 +125,8 @@ function reducer(state = initialState, action: AnyAction) {
         }
 
         case 'initialize': {
-            const { storecode, usercode } = action.payload;
-            return { ...state, hasInitialized: true, storecode, usercode };
+            const { storecode, transactions, usercode } = action.payload;
+            return { ...state, hasInitialized: true, storecode, usercode, transactions };
         }
 
         case 'itemDetail/set': {
@@ -127,6 +139,10 @@ function reducer(state = initialState, action: AnyAction) {
 
         case 'storecode/update': {
             return { ...state, storecode: action.payload };
+        }
+
+        case 'transactions/update': {
+            return { ...state, transactions: action.payload };
         }
 
         case 'usercode/update': {
