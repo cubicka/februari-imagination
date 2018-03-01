@@ -7,6 +7,7 @@ export enum AppPage {
     Home = 'Home',
     GrosirHome = 'GrosirHome',
     ItemDetail = 'ItemDetail',
+    Search = 'Search',
     Transaction = 'Transaction',
 }
 
@@ -101,6 +102,17 @@ function reducer(state = initialState, action: AnyAction) {
                 };
             }
 
+            if (state.cart[itemIdx].qty === 1) {
+                return {
+                    ...state,
+                    cart: [
+                        ...state.cart.slice(0, itemIdx),
+                        ...state.cart.slice(itemIdx + 1),
+                    ],
+                    totalPrices: state.totalPrices - parseFloat(item.price),
+                };
+            }
+
             return {
                 ...state,
                 cart: [
@@ -108,7 +120,7 @@ function reducer(state = initialState, action: AnyAction) {
                     { item, qty: Math.max(0, state.cart[itemIdx].qty - 1) },
                     ...state.cart.slice(itemIdx + 1),
                 ],
-                totalPrices: state.totalPrices - ((state.cart[itemIdx].qty === 0) ? 0 : parseFloat(item.price)),
+                totalPrices: state.totalPrices - parseFloat(item.price),
             };
         }
 

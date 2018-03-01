@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { Dispatch, ThunkAction } from 'app/actionTypes';
 import { AppPage, Transaction } from 'app/reducers/app';
 import { WS } from 'app/reducers/ws';
+import bounce from 'app/util/bounce';
 import { Get, Post } from 'app/util/network';
 import { Save } from 'app/util/storage';
 
@@ -124,7 +125,6 @@ function transformTransaction(transaction: any): Transaction {
 type getTransactionsAction = ['ws/getTransactions'];
 function getTransactions()  {
     return (dispatch: Dispatch) => {
-
         return Get('/retail/orders')
         .then((response: any) => {
             const t = response.transactions.slice(0, 5).map(transformTransaction);
@@ -139,8 +139,40 @@ function getTransactions()  {
     };
 }
 
+function fetchItem(storecode: string, name: string): ThunkAction<Promise<any>> {
+    return (dispatch: Dispatch, getState) => {
+        return Get(`/retail/ws/${storecode}/itemsByName`, { name })
+        .then((response: any) => {
+            const state = getState();
+            const searchKey = state.ws.searchKey;
+            if (searchKey === name) {
+                dispatch(['/ws/searchItems/update', response.products]);
+                dispatch(['/ws/isSearching/update', false]);
+            }
+        })
+        .catch(() => {
+            dispatch(['/ws/isSearching/update', false]);
+        });
+    };
+}
+
+type searchItemAction = ['ws/searchItem', string];
+function searchItem(name: string): ThunkAction<void> {
+    return (dispatch: Dispatch, getState) => {
+        const state = getState();
+        const storecode = state.app.storecode;
+
+        dispatch(['/ws/isSearching/update', true]);
+        dispatch(['/ws/searchKey/update', name]);
+
+        bounce('searchItems', () => {
+            dispatch(fetchItem(storecode, name));
+        });
+    };
+}
+
 export type wsAction = getCategoryAction | getItemsAction |
-    getListAction | getTransactionsAction | pesanAction | selectAction | showDetailAction;
+    getListAction | getTransactionsAction | pesanAction | searchItemAction | selectAction | showDetailAction;
 export default {
-    getCategory, getItems, getList, getTransactions, pesan, select, showDetail,
+    getCategory, getItems, getList, getTransactions, pesan, searchItem, select, showDetail,
 };

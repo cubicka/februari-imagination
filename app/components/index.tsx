@@ -12,6 +12,7 @@ import Home from './Home';
 import ItemDetail from './ItemDetail';
 import Loading from './Loading';
 import Login from './Login';
+import Search from './Search';
 import Transaction from './Transaction';
 
 interface StateProps {
@@ -42,7 +43,9 @@ class App extends React.Component<StateProps & ActionProps> {
             <View style={{flex: 1}}>
             { currentPage === AppPage.GrosirHome && <Grosir /> }
             { currentPage === AppPage.Transaction && <Transaction /> }
-            { currentPage !== AppPage.GrosirHome && currentPage !== AppPage.Transaction && <Home /> }
+            { currentPage === AppPage.Search && <Search /> }
+            { currentPage !== AppPage.GrosirHome && currentPage !== AppPage.Transaction &&
+                currentPage !== AppPage.Search && <Home /> }
             </View>
             {
                 showItemDetail &&

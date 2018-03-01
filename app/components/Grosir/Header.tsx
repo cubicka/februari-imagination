@@ -16,10 +16,17 @@ const BackWithAction = connect<{}, Buttons>(
     }),
 )(HeaderButtons.Back);
 
+const SearchAction = connect<{}, Buttons>(
+    null,
+    (dispatch: Dispatch) => ({
+        onPress: () => dispatch(['/app/currentPage/update', AppPage.Search]),
+    }),
+)(HeaderButtons.Search);
+
 const Header = (name: string) => (
     <HeaderBase
         left={<BackWithAction />}
-        right={<HeaderButtons.Favorite />}
+        right={<SearchAction />}
         text={name} >
         <CategorySlider />
     </HeaderBase>

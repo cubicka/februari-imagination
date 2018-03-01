@@ -39,6 +39,9 @@ export interface WSState {
             [categorycode: string]: Item[];
         };
     };
+    searchItems: Item[];
+    searchKey: string;
+    isSearching: boolean;
 }
 
 const initialState: WSState = {
@@ -50,6 +53,9 @@ const initialState: WSState = {
     categoryActive: {},
     items: {},
     lastUpdate: {},
+    searchItems: [],
+    searchKey: '',
+    isSearching: false,
 };
 
 export type wsReducerActions = ['/ws/category/set', { [name: string]: Category[] }] |
@@ -58,6 +64,9 @@ export type wsReducerActions = ['/ws/category/set', { [name: string]: Category[]
     ['/ws/current/update', WS] |
     ['/ws/items/set', Item[]] |
     ['/ws/items/update', { storecode: string, categorycode: string, items: Item[]}] |
+    ['/ws/searchItems/update', Item[]] |
+    ['/ws/searchKey/update', string] |
+    ['/ws/isSearching/update', boolean] |
     [ '/ws/list/update', WS[] ] ;
 
 function reducer(state = initialState, action: AnyAction) {
@@ -114,6 +123,18 @@ function reducer(state = initialState, action: AnyAction) {
 
         case 'list/update': {
             return { ...state, list: action.payload };
+        }
+
+        case 'searchItems/update': {
+            return { ...state, searchItems: action.payload };
+        }
+
+        case 'searchKey/update': {
+            return { ...state, searchKey: action.payload };
+        }
+
+        case 'isSearching/update': {
+            return { ...state, isSearching: action.payload };
         }
 
         default: return state;

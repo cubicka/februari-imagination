@@ -3,10 +3,8 @@ import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-n
 import { connect } from 'react-redux';
 
 import { Dispatch } from 'app/actionTypes';
-// import PhotoPlaceholder from 'app/components/commons/PhotoPlaceholder';
 import { colors } from 'app/components/commons/styles';
 import config from 'app/config';
-import { AppPage } from 'app/reducers/app';
 import { Item } from 'app/reducers/ws';
 
 export const DummyCategoryItem: React.SFC<{}> = () => (

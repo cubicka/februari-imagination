@@ -16,11 +16,21 @@ export const LoginInput: React.SFC<LoginInputProps> = props => {
     </View>;
 };
 
+export const SearchInput: React.SFC<LoginInputProps> = props => {
+    return <View style={{ flex: 1 }}>
+        <TextInput style={styles.login2} underlineColorAndroid={'transparent'} {...props} />
+    </View>;
+};
+
 const styles = StyleSheet.create({
     login: {
         color: colors.lightGrayText,
         fontSize: 14,
         paddingLeft: 15,
+    },
+    login2: {
+        color: colors.white,
+        fontSize: 14,
     },
     wrapper: {
         borderColor: colors.lightGrayBorder,
