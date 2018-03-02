@@ -129,7 +129,7 @@ function reducer(state = initialState, action: AnyAction) {
         }
 
         case 'cart/empty': {
-            return { ...state, cart: [] };
+            return { ...state, cart: [], totalPrices: 0 };
         }
 
         case 'currentPage/update': {
