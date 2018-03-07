@@ -112,7 +112,7 @@ function pesan(picktime: Date): ThunkAction<Promise<any> | any>  {
 function transformTransaction(transaction: any): Transaction {
     return {
         storename: transaction.grosir.name,
-        status: transaction.isprint ? 'Ter-print' : 'Antri',
+        status: transaction.iscanceled === '1' ? 'Batal' : (transaction.isprint === '1' ? 'Ter-print' : 'Antri'),
         totalPrice: transaction.items.reduce((total: number, item: any) => {
             return total + item.pcsqty * parseFloat(item.price);
         }, 0),
